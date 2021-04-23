@@ -24,7 +24,7 @@
 #  register: r_instances
 
 - name: Create OpenStack server instances
- os_server:
+  os_server:
    cloud: openstack
    name: app1 #"{{ item.value.name }}"
    state: present #"{{ item.value.state }}"
