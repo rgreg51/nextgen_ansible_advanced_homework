@@ -41,9 +41,9 @@
     cat /tmp/openstack.pub >> /home/cloud-user/.ssh/authorized_keys
   with_dict:
     "{{ osp_servers }}"
- async: 900
- poll: 0
- register: r_instances
+  async: 900
+  poll: 0
+  register: r_instances
 
 - name: debug
   debug:
