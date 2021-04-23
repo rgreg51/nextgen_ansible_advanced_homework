@@ -8,7 +8,7 @@
     state: present #"{{ item.value.state }}"
     image: rhel-guest #"{{ item.value.image }}"
     flavor: m1.medium #"{{ item.value.flavor }}"
-    key_name: ansible_ssh "{{ item.value.key_name }}" 
+    key_name: ansible_ssh #"{{ item.value.key_name }}" 
     security_groups: frontend #"{{ item.value.security_group }}"
     meta: "group: frontends, deployment_name: QA" #"{{ item.value.meta }}"
     nics:
