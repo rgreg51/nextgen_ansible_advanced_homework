@@ -1,3 +1,75 @@
 ---
-
 # tasks file for osp.servers
+
+#- name: Create OpenStack server instances
+#  os_server:
+#    cloud: openstack
+#    name: "{{ item.value.name }}"
+#    state: "{{ item.value.state }}"
+#    image: "{{ item.value.image }}"
+#    flavor: "{{ item.value.flavor }}"
+#    key_name: "{{ item.value.key_name }}" 
+#    security_groups: "{{ item.value.security_group }}"
+#    meta: "{{ item.value.meta }}"
+#    nics:
+#      - net-name: int_network
+#    userdata: |
+#     #!/bin/bash
+#     curl -o /tmp/openstack.pub http://www.opentlc.com/download/ansible_bootcamp/openstack_keys/openstack.pub
+#     cat /tmp/openstack.pub >> /home/cloud-user/.ssh/authorized_keys
+#  with_dict:
+#    "{{ osp_servers }}"
+#  async: 900
+#  poll: 0
+#  register: r_instances
+
+- name: Create OpenStack server instances
+  os_server:
+    cloud: openstack
+    name: app1 #"{{ item.value.name }}"
+    state: present #"{{ item.value.state }}"
+    image: rhel-guest" #{{ item.value.image }}"
+    flavor: m1.medium #"{{ item.value.flavor }}"
+    key_name: ansible_ssh #"{{ item.value.key_name }}" 
+    security_groups: apps #"{{ item.value.security_group }}"
+    meta: "group: frontends, deployment_name: QA" #"{{ item.value.meta }}"
+    nics:
+      - net-name: int_network
+    userdata: |
+     #!/bin/bash
+     curl -o /tmp/openstack.pub http://www.opentlc.com/download/ansible_bootcamp/openstack_keys/openstack.pub
+     cat /tmp/openstack.pub >> /home/cloud-user/.ssh/authorized_keys
+#  with_dict:
+#    "{{ osp_servers }}"
+  async: 900
+  poll: 0
+  register: r_instances
+
+- name: debug
+  debug:
+    msg: 
+    - "{{ item.value.name }}"
+    - "{{ item.value.state }}" 
+    - "{{ item.value.image }}"
+    - "{{ item.value.flavor }}" 
+    - "{{ item.value.key_name }}"
+    - "{{ item.value.security_group }}"
+    - "{{ item.value.meta }}"
+    verbosity: 2
+  with_dict:
+    "{{ osp_servers }}"
+
+- name: Wait for async OSP instance creation to complete
+  async_status: "jid={{ item.ansible_job_id }}"
+  register: r_wait
+  until: r_wait.finished
+  retries: 900
+  loop: "{{ r_instances.results }}"
+
+- name: Debug instances 
+  debug:
+    msg: "Server is {{ __instance.__openstack_server.instance_name }}"
+    verbosity: 2
+  loop: "{{ r_instances.results }}"
+  loop_control:
+    loop_var: __instance

@@ -1,4 +1,6 @@
-- hosts: localhost
+---
+- name: Deploy OpenStack Servers
+  hosts: localhost
   connection: local
   become: no
   gather_facts: true

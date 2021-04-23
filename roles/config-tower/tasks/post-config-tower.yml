@@ -1,6 +1,3 @@
-- name: Create Homework Assignment project
-
-
 - name: Machine Credentail to connect to workstation using openstack.pub
   tower_credential:
     name: Connect_to_workstation
@@ -12,6 +9,11 @@
     tower_password: r3dh4t1!
     ssh_key_data: "/root/.ssh/openstack.pem"
     username: cloud-user
+
+
+- name: Create Homework Assignment project
+  command: |
+    tower-cli project create -n "{{proj_name}}" --organization "{{org_name}}" --scm-type git --scm-url {{scm_url}} --scm-credential rzuffo-sorint
 
 - name: Create Inventory
   command: |
