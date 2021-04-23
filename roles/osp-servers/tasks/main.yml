@@ -45,7 +45,11 @@
   poll: 0
   register: r_instances
 
-- name: debug
+- name: debug r_instances
+  debug:
+    var: r_instances
+
+- name: debug dict
   debug:
     msg: 
     - "{{ item.value.name }}"
