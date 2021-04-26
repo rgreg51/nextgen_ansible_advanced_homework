@@ -4,13 +4,15 @@
 - name: Create OpenStack server instances
   os_server:
     cloud: openstack
-    name: frontend #"{{ item.value.name }}"
-    state: present #"{{ item.value.state }}"
-    image: rhel-guest #"{{ item.value.image }}"
-    flavor: m1.medium #"{{ item.value.flavor }}"
-    key_name: ansible_ssh #"{{ item.value.key_name }}" 
-    security_groups: frontend #"{{ item.value.security_group }}"
-    meta: "group: frontends, deployment_name: QA" #"{{ item.value.meta }}"
+    name: "{{ item.value.name }}"
+    state: "{{ item.value.state }}"
+    image: "{{ item.value.image }}"
+    flavor: "{{ item.value.flavor }}"
+    key_name: "{{ item.value.key_name }}" 
+    security_groups: "{{ item.value.security_group }}"
+    wait: yes
+    delete_fip: yes
+    meta: "{{ item.value.meta }}"
     nics:
       - net-name: int_network
     userdata: |
