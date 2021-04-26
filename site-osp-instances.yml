@@ -2,7 +2,7 @@
 - name: Deploy OpenStack Servers
   hosts: localhost
   connection: local
-  become: yes
+  become: no
   gather_facts: true
   roles:
    - osp-servers
