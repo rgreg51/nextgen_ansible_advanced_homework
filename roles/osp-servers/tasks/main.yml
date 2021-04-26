@@ -25,27 +25,28 @@
   poll: 0
   register: r_instances
 
-#- name: Create OpenStack server instances
-#  os_server:
-#   cloud: openstack
-#   name: app1 #"{{ item.value.name }}"
-#   state: present #"{{ item.value.state }}"
-#   image: rhel-guest  #"{{ item.value.image }}"
-#   flavor: m1.medium #"{{ item.value.flavor }}"
-#   key_name: ansible_ssh #"{{ item.value.key_name }}" 
-#   security_groups: apps #"{{ item.value.security_group }}"
-#   meta: "group: , deployment_name: QA" #"{{ item.value.meta }}"
-#   nics:
-#     - net-name: int_network
-#   userdata: |
-#    #!/bin/bash
-#    curl -o /tmp/openstack.pub http://www.opentlc.com/download/ansible_bootcamp/openstack_keys/openstack.pub
-#    cat /tmp/openstack.pub >> /home/cloud-user/.ssh/authorized_keys
+- name: Create OpenStack server instances
+  os_server:
+   cloud: openstack
+   name: app1 #"{{ item.value.name }}"
+   state: present #"{{ item.value.state }}"
+   image: rhel-guest  #"{{ item.value.image }}"
+   flavor: m1.medium #"{{ item.value.flavor }}"
+   key_name: ansible_ssh #"{{ item.value.key_name }}" 
+   security_groups: apps #"{{ item.value.security_group }}"
+   delete_fip: yes
+   meta: "group: , deployment_name: QA" #"{{ item.value.meta }}"
+   nics:
+     - net-name: int_network
+   userdata: |
+    #!/bin/bash
+    curl -o /tmp/openstack.pub http://www.opentlc.com/download/ansible_bootcamp/openstack_keys/openstack.pub
+    cat /tmp/openstack.pub >> /home/cloud-user/.ssh/authorized_keys
 #  with_dict:
 #    "{{ osp_servers }}"
-#  async: 900
-#  poll: 0
-#  register: r_instances
+  async: 900
+  poll: 0
+  register: r_instances
 
 - name: debug r_instances
   debug:
