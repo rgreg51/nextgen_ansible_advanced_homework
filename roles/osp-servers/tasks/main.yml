@@ -1,29 +1,29 @@
 ---
 # tasks file for osp.servers
 
-- name: Create OpenStack server instances
-  os_server:
-    cloud: openstack
-    name: "{{ item.value.name }}"
-    state: "{{ item.value.state }}"
-    image: "{{ item.value.image }}"
-    flavor: "{{ item.value.flavor }}"
-    key_name: "{{ item.value.key_name }}" 
-    security_groups: "{{ item.value.security_group }}"
+#- name: Create OpenStack server instances
+#  os_server:
+#    cloud: openstack
+#    name: "{{ item.value.name }}"
+#    state: "{{ item.value.state }}"
+#    image: "{{ item.value.image }}"
+#    flavor: "{{ item.value.flavor }}"
+#    key_name: "{{ item.value.key_name }}" 
+#    security_groups: "{{ item.value.security_group }}"
     #wait: yes
-    delete_fip: yes
-    meta: "{{ item.value.meta }}"
-    nics:
-      - net-name: int_network
-    userdata: |
-     #!/bin/bash
-     curl -o /tmp/openstack.pub http://www.opentlc.com/download/ansible_bootcamp/openstack_keys/openstack.pub
-     cat /tmp/openstack.pub >> /home/cloud-user/.ssh/authorized_keys
-  with_dict:
-    "{{ osp_servers }}"
-  async: 900
-  poll: 0
-  register: r_instances
+#    delete_fip: yes
+#    meta: "{{ item.value.meta }}"
+#    nics:
+#      - net-name: int_network
+#    userdata: |
+#     #!/bin/bash
+#     curl -o /tmp/openstack.pub http://www.opentlc.com/download/ansible_bootcamp/openstack_keys/openstack.pub
+#     cat /tmp/openstack.pub >> /home/cloud-user/.ssh/authorized_keys
+#  with_dict:
+#    "{{ osp_servers }}"
+#  async: 900
+#  poll: 0
+#  register: r_instances
 
 - name: Create OpenStack server instances
   os_server:
@@ -48,23 +48,23 @@
   poll: 0
   register: r_instances
 
-- name: debug r_instances
-  debug:
-    var: r_instances
+#- name: debug r_instances
+#  debug:
+#    var: r_instances
 
-- name: debug dict
-  debug:
-    msg: 
-    - "{{ item.value.name }}"
-    - "{{ item.value.state }}" 
-    - "{{ item.value.image }}"
-    - "{{ item.value.flavor }}" 
-    - "{{ item.value.key_name }}"
-    - "{{ item.value.security_group }}"
-    - "{{ item.value.meta }}"
-    verbosity: 2
-  with_dict:
-    "{{ osp_servers }}"
+#- name: debug dict
+#  debug:
+#    msg: 
+#    - "{{ item.value.name }}"
+#    - "{{ item.value.state }}" 
+#    - "{{ item.value.image }}"
+#    - "{{ item.value.flavor }}" 
+#    - "{{ item.value.key_name }}"
+#    - "{{ item.value.security_group }}"
+#    - "{{ item.value.meta }}"
+#    verbosity: 2
+#  with_dict:
+#    "{{ osp_servers }}"
 
 #- name: Pause for 3 minutes
 #  pause:
