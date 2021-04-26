@@ -68,17 +68,18 @@
 #- name: Pause for 3 minutes
 #  pause:
 #    minutes: 180
-#- name: Wait for async OSP instance creation to complete
-#  async_status: "jid={{ item.ansible_job_id }}"
-#  register: r_wait
-#  until: r_wait.finished
-#  retries: 900
-#  loop: "{{ r_instances.results }}"
 
-#- name: Debug instances 
-#  debug:
-#    msg: "Server is {{ __instance.__openstack_server.instance_name }}"
-#    verbosity: 2
-#  loop: "{{ r_instances.results }}"
-#  loop_control:
-#    loop_var: __instance
+- name: Wait for async OSP instance creation to complete
+  async_status: "jid={{ item.ansible_job_id }}"
+  register: r_wait
+  until: r_wait.finished
+  retries: 900
+  loop: "{{ r_instances.results }}"
+
+- name: Debug instances 
+  debug:
+    msg: "Server is {{ __instance.__openstack_server.instance_name }}"
+    verbosity: 2
+  loop: "{{ r_instances.results }}"
+  loop_control:
+    loop_var: __instance
