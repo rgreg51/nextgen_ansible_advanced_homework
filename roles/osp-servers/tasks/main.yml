@@ -75,7 +75,7 @@
   register: r_wait
   until: r_wait.finished
   retries: 900
-  loop: "{{ r_instances.results }}"
+#  loop: "{{ r_instances.results }}"
 
 - name: Debug instances 
   debug:
