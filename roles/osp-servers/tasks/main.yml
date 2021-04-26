@@ -10,7 +10,7 @@
     flavor: "{{ item.value.flavor }}"
     key_name: "{{ item.value.key_name }}" 
     security_groups: "{{ item.value.security_group }}"
-    wait: yes
+    #wait: yes
     delete_fip: yes
     meta: "{{ item.value.meta }}"
     nics:
